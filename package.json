@@ -1,0 +1,26 @@
+{
+  "name": "investment-hub-portal",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "antd": "^4.12.1",
+    "chart.js": "^2.9.4",
+    "date-fns": "^2.16.1",
+    "react": "^17.0.0",
+    "react-chartjs-2": "^2.11.1",
+    "react-dom": "^17.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@vitejs/plugin-react-refresh": "^1.1.0",
+    "sass": "^1.32.6",
+    "typescript": "^4.1.2",
+    "vite": "^2.0.0-beta.50"
+  }
+}

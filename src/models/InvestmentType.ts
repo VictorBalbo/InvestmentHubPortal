@@ -1,0 +1,12 @@
+export enum InvestmentType {
+  BALANCE = 'BALANCE',
+  OPTION = 'OPTION',
+  FUTURE = 'FUTURE',
+  STOCK = 'STOCK',
+  TREASURY = 'TREASURY',
+  FUNDS = 'FUNDS',
+  FIXED_INCOME = 'FIXED_INCOME',
+  R8 = 'R8',
+  PENSION_FUNDS = 'PENSION_FUNDS',
+  UNKNOWN = 'UNKNOWN',
+}

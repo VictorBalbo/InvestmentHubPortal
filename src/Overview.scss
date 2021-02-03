@@ -1,0 +1,47 @@
+@import "./Responsive.scss";
+
+#OverviewComponent {
+  // padding: 10px;
+
+  .CardSection {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+  }
+
+  .OverviewCard {
+    overflow: auto;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 0 5px;
+  }
+
+  .SummaryCard {
+    height: 360px;
+    max-width: 75%;
+    flex-grow: 1;
+  }
+
+  .WalletCard {
+    width: 100%;
+
+    .WalletWrapper {
+      display: flex;
+      flex-direction: row;
+      @media screen and (max-width: $break-small) {
+        flex-direction: column;
+      }
+
+      .WalletChart {
+        width: 50%;
+        @media screen and (max-width: $break-small) {
+          width: 100%;
+        }
+      }
+
+      .WalletTable {
+        width: 100%;
+      }
+    }
+  }
+}

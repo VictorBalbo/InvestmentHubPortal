@@ -1,0 +1,44 @@
+#App {
+  display: flex;
+  flex-direction: row;
+
+  #SideMenu {
+    width: 256px;
+    min-width: 256px;
+    background-color: #001529;
+  }
+
+  #MainSection {
+    width: 100%;
+
+    #MainHeader {
+      height: 64px;
+      line-height: 64px;
+      background-color: #ffffff;
+    }
+
+    #MainFooter {
+      div {
+        border-top: 1px solid #f0f0f0;
+        margin: 0 15px;
+      }
+      height: 64px;
+      line-height: 64px;
+      text-align: center;
+    }
+  }
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logo img {
+  width: 200px;
+}
+.logo span {
+  color: #ccccdb;
+  font-size: x-large;
+  text-align: center;
+}

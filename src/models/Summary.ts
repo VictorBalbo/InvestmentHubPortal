@@ -1,8 +1,8 @@
-import { Investment } from './Investment';
+import { Investment } from './Investment'
 
 export interface Summary {
-  TotalValue: number;
-  TotalInvestedValue: number;
-  MonthGain: number;
-  Investments: Investment[];
+	TotalValue: number
+	TotalInvestedValue: number
+	MonthGain: number
+	Investments: Investment[]
 }

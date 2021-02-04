@@ -1,4 +1,4 @@
 export interface PatrimonyEvolution {
-  Date: string;
-  Value: number;
+	Date: string
+	Value: number
 }

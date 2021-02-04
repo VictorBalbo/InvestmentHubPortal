@@ -108,28 +108,28 @@ export function OverviewComponent() {
         <Card title="My Summary" className="OverviewCard SummaryCard">
           <Statistic
             title="Net Worth"
-            value={summary!.TotalValue}
+            value={summary.TotalValue}
             precision={2}
             prefix={'R$'}
           />
           <Divider className="Divider" />
           <Statistic
             title="Invested"
-            value={summary!.TotalInvestedValue}
+            value={summary.TotalInvestedValue}
             precision={2}
             prefix={'R$'}
           />
           <Divider className="Divider" />
           <Statistic
             title="Gain in month"
-            value={summary!.MonthGain}
+            value={summary.MonthGain}
             precision={2}
             prefix={'R$'}
           />
           <Divider className="Divider" />
           <Statistic
             title="Profitability in month"
-            value={(summary!.MonthGain / summary!.TotalValue) * 100}
+            value={(summary.MonthGain / summary.TotalValue) * 100}
             precision={2}
             suffix={'%'}
           />
@@ -144,7 +144,7 @@ export function OverviewComponent() {
               maintainAspectRatio: false,
               legend: {
                 display: false,
-                onClick: (e) => e.stopPropagation(),
+                onClick: (e: Event) => e.stopPropagation(),
               },
             }}
           />
@@ -161,7 +161,7 @@ export function OverviewComponent() {
                   responsive: true,
                   maintainAspectRatio: false,
                   legend: {
-                    onClick: (e) => e.stopPropagation(),
+                    onClick: (e: Event) => e.stopPropagation(),
                   },
                 }}
               />

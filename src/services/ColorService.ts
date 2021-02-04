@@ -1,5 +1,5 @@
 export class ColorService {
-  private static getHashFromString(value: string) {
+  private static getHashFromString(value: string): number {
     let hash = 0;
 
     for (let i = 0; i < value.length; i++) {
@@ -8,11 +8,11 @@ export class ColorService {
     }
     return hash;
   }
-  public static getColor(value: string) {
+  public static getColor(value: string): string {
     const hash = this.getHashFromString(value);
     let color = '#';
     for (let i = 0; i < 3; i++) {
-      let value = (hash >> (i * 8)) & 255;
+      const value = (hash >> (i * 8)) & 255;
       color += value.toString(16);
     }
     return color;

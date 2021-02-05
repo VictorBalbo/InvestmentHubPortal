@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { HeaderComponent, OverviewComponent } from '@/components'
+import { FooterComponent, HeaderComponent, OverviewComponent } from '@/components'
 import { Menu } from 'antd'
 import './App.scss'
 import Logo from './assets/logo.svg'
 import { ApiService } from '@/services/'
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 
 function App() {
 	const [isShowValuesEnabled, setIsShowValuesEnabled] = useState<boolean>(true)
@@ -14,27 +15,38 @@ function App() {
 
 	return (
 		<section id="App">
-			<aside id="SideMenu">
-				<div className="logo">
-					<img src={Logo} alt="Cerberus Logo" />
-					<span>InvestmentHub</span>
-				</div>
-				<Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-					<Menu.Item key="1">Summary</Menu.Item>
-				</Menu>
-			</aside>
-			<section id="MainSection" className={isShowValuesEnabled ? '' : 'hide-values-enabled'}>
-				<HeaderComponent
-					isShowValuesEnabled={isShowValuesEnabled}
-					setIsShowValuesEnabled={setIsShowValuesEnabled}
-				/>
-				<main id="MainContent">
-					{isAuthenticated && <OverviewComponent isShowValuesEnabled={isShowValuesEnabled} />}
-				</main>
-				<footer id="MainFooter">
-					<div>InvestmentHub ©{new Date().getFullYear()}</div>
-				</footer>
-			</section>
+			<Router>
+				<aside id="side-menu">
+					<div className="logo">
+						<img src={Logo} alt="Cerberus Logo" />
+						<span>InvestmentHub</span>
+					</div>
+					<Menu theme="dark" mode="inline" defaultSelectedKeys={['Summary']}>
+						<Menu.Item key="Summary">
+							<Link to="/summary">Summary</Link>
+						</Menu.Item>
+						<Menu.Item key="Providers">
+							<Link to="/providers">Providers</Link>
+						</Menu.Item>
+					</Menu>
+				</aside>
+				<section id="main-section" className={isShowValuesEnabled ? '' : 'hide-values-enabled'}>
+					<HeaderComponent
+						isShowValuesEnabled={isShowValuesEnabled}
+						setIsShowValuesEnabled={setIsShowValuesEnabled}
+					/>
+					<main id="main-content">
+						<Switch>
+							<Route exact path={['/', '/summary']}>
+								{isAuthenticated && <OverviewComponent isShowValuesEnabled={isShowValuesEnabled} />}
+							</Route>
+							<Route path={['/providers']}>
+							</Route>
+						</Switch>
+					</main>
+					<FooterComponent />
+				</section>
+			</Router>
 		</section>
 	)
 }

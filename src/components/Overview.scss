@@ -1,4 +1,4 @@
-@import './Responsive.scss';
+@import '../Responsive.scss';
 
 #OverviewComponent {
 	// padding: 10px;
@@ -17,7 +17,12 @@
 	}
 
 	.SummaryCard {
-		height: 360px;
+		height: 400px;
+		width: 25%;
+	}
+
+	.EvolutionCard {
+		height: 400px;
 		max-width: 75%;
 		flex-grow: 1;
 	}
@@ -43,5 +48,9 @@
 				width: 100%;
 			}
 		}
+	}
+
+	.text-red{
+		color: #cf1322
 	}
 }

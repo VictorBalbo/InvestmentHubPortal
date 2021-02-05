@@ -1,4 +1,3 @@
-export * from './Investment'
-export * from './InvestmentType'
+export * from './Asset'
+export * from './AssetType'
 export * from './PatrymonyEvolution'
-export * from './Summary'

@@ -1,6 +1,7 @@
-import reactRefresh from '@vitejs/plugin-react-refresh';
-import viteESLint from '@ehutch79/vite-eslint';
-import { defineConfig } from 'vite';
+import reactRefresh from '@vitejs/plugin-react-refresh'
+import viteESLint from '@ehutch79/vite-eslint'
+import { defineConfig } from 'vite'
+import * as path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -8,4 +9,7 @@ export default defineConfig({
 	server: {
 		port: 5000,
 	},
-});
+	alias: {
+		'@': path.resolve(__dirname, './src'),
+	},
+})

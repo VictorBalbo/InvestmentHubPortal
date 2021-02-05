@@ -24,7 +24,7 @@ function App() {
 					<Menu.Item key="1">Summary</Menu.Item>
 				</Menu>
 			</aside>
-			<section id="MainSection">
+			<section id="MainSection" className={isShowValuesEnabled ? '' : 'hide-values-enabled'}>
 				<header id="MainHeader">
 					Header
 					<Tooltip title={isShowValuesEnabled ? "Hide Values" : "Show Values"}>

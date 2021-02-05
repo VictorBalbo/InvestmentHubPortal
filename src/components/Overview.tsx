@@ -3,8 +3,10 @@ import { Card, Divider, Statistic, Table } from 'antd'
 import { Doughnut, Line } from 'react-chartjs-2'
 import { compareAsc, format, parseISO } from 'date-fns'
 import { Asset, AssetType, PatrimonyEvolution } from '@/models'
-import { AssetService, ColorService } from '@/services'
+import { AssetService } from '@/services'
 import './Overview.scss'
+
+const chartColorScheme = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']
 
 export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled: boolean }) {
 	const [allAssets, setAllAssets] = useState<Asset[]>()
@@ -20,6 +22,9 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 			datasets: [
 				{
 					data: evolution.map((i) => i.Value),
+					borderColor: chartColorScheme[0],
+					// background is the same color, but half transparency (FF / 2 = 80)
+					backgroundColor: chartColorScheme[0].concat('80'),
 				},
 			],
 		}
@@ -66,7 +71,7 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 					data: Object.values(investmentsByType)
 						.filter((val) => (val ?? 0) > 0)
 						.map((val) => roundDecimals(val ?? 0)),
-					backgroundColor: Object.keys(investmentsByType).map((i) => ColorService.getColor(i)),
+					backgroundColor: chartColorScheme,
 					borderWidth: 1,
 				},
 			],
@@ -112,37 +117,44 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 						value={isShowValuesEnabled ? netWorthValue : '-'}
 						precision={2}
 						prefix={'R$'}
+						className={'animated-text-change'}
 					/>
-					<Divider className="Divider" />
+					<Divider className="divider" />
 					<Statistic
 						title="Invested"
 						value={isShowValuesEnabled ? investedValue : '-'}
 						precision={2}
 						prefix={'R$'}
+						className={'animated-text-change'}
 					/>
 					{debtValue !== 0 && (
 						<span>
-							<Divider className="Divider" />
+							<Divider className="divider" />
 							<Statistic
 								title="Assets"
 								value={isShowValuesEnabled ? positiveAssetsValue : '-'}
 								precision={2}
 								prefix={'R$'}
 								valueStyle={{ color: '#3f8600' }}
+								className={'animated-text-change'}
 							/>
-							<Divider className="Divider" />
+							<Divider className="divider" />
 							<Statistic
 								title="Debt"
 								value={isShowValuesEnabled ? debtValue : '-'}
 								precision={2}
 								prefix={'R$'}
 								valueStyle={{ color: '#cf1322' }}
+								className={'animated-text-change'}
 							/>
 						</span>
 					)}
 				</Card>
 
-				<Card title="Evolution" className="OverviewCard EvolutionCard" loading={!allAssets}>
+				<Card
+					title="Evolution"
+					className="OverviewCard EvolutionCard animated-text-change"
+					loading={!allAssets}>
 					<Line
 						data={patrimonyChart}
 						height={250}
@@ -195,6 +207,7 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 								dataSource={walletTableSource}
 								columns={walletTablecolumns}
 								rowClassName={(record: any) => (record.value < 0 ? 'text-red' : '')}
+								className={'animated-text-change'}
 							/>
 						</div>
 					</div>

@@ -5,10 +5,44 @@ body,
 	background-color: #f5f8f9;
 }
 
-.Divider {
+.divider {
 	margin: 6px 0;
 }
 
 .ant-statistic-content-value-decimal {
 	font-size: 16px;
+}
+
+.animated-text-change {
+	animation: animated-text-before 1s;
+}
+
+.hide-values-enabled {
+	.animated-text-change {
+		animation: animated-text-after 1s;
+	}
+}
+
+
+@keyframes animated-text-before {
+	0% {
+		opacity: 1;
+	}
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes animated-text-after {
+	0% {
+		opacity: 1;
+	}
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

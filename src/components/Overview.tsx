@@ -6,7 +6,20 @@ import { Asset, AssetType, PatrimonyEvolution } from '@/models'
 import { AssetService } from '@/services'
 import './Overview.scss'
 
-const chartColorScheme = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']
+const chartColorScheme = [
+	'#a6cee3',
+	'#1f78b4',
+	'#b2df8a',
+	'#33a02c',
+	'#fb9a99',
+	'#e31a1c',
+	'#fdbf6f',
+	'#ff7f00',
+	'#cab2d6',
+	'#6a3d9a',
+	'#ffff99',
+	'#b15928',
+]
 
 export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled: boolean }) {
 	const [allAssets, setAllAssets] = useState<Asset[]>()
@@ -65,12 +78,13 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 			labels: Object.keys(investmentsByType).filter((a) => a !== AssetType.Credit),
 			datasets: [
 				{
-					percentage: Object.values(investmentsByType)
-						.filter((val) => (val ?? 0) > 0)
-						.map((val) => formatPercentage((val ?? 0) / positiveAssetsValue)),
 					data: Object.values(investmentsByType)
 						.filter((val) => (val ?? 0) > 0)
-						.map((val) => roundDecimals(val ?? 0)),
+						.map((val) =>
+							isShowValuesEnabled
+								? val ?? 0
+								: ((val ?? 0) / positiveAssetsValue),
+						),
 					backgroundColor: chartColorScheme,
 					borderWidth: 1,
 				},
@@ -156,7 +170,7 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 					className="OverviewCard EvolutionCard animated-text-change"
 					loading={!allAssets}>
 					<Line
-						data={patrimonyChart}
+						data={patrimonyChart ?? {}}
 						height={250}
 						options={{
 							responsive: true,
@@ -184,14 +198,14 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 					<div className="WalletWrapper">
 						<div className="WalletChart">
 							<Doughnut
-								data={walletChartData}
+								data={walletChartData ?? {}}
 								options={{
 									tooltips: {
 										callbacks: {
-											label: ({ datasetIndex, index }: any, { datasets }: any) =>
+											label: ({ datasetIndex = 0, index = 0 }, { datasets }: any) =>
 												isShowValuesEnabled
-													? `R$ ${datasets[datasetIndex].data[index]}`
-													: `${datasets[datasetIndex].percentage[index]}`,
+													? `R$ ${roundDecimals(datasets[datasetIndex].data[index] ?? 0)}`
+													: `${formatPercentage(datasets[datasetIndex].data[index])}`,
 										},
 									},
 									responsive: true,

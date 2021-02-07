@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { FooterComponent, HeaderComponent, OverviewComponent } from '@/components'
+import {
+	FooterComponent,
+	HeaderComponent,
+	OverviewComponent,
+	ProvidersComponent,
+} from '@/components'
 import { Menu } from 'antd'
 import './App.scss'
 import Logo from './assets/logo.svg'
@@ -13,6 +18,9 @@ function App() {
 		ApiService.login().then(() => setIsAuthenticated(true))
 	}, [])
 
+	let pathName = window.location.pathname
+	if(pathName === '/') pathName = '/summary'
+
 	return (
 		<section id="App">
 			<Router>
@@ -21,11 +29,11 @@ function App() {
 						<img src={Logo} alt="Cerberus Logo" />
 						<span>InvestmentHub</span>
 					</div>
-					<Menu theme="dark" mode="inline" defaultSelectedKeys={['Summary']}>
-						<Menu.Item key="Summary">
+					<Menu theme="dark" mode="inline" defaultSelectedKeys={[pathName]}>
+						<Menu.Item key="/summary">
 							<Link to="/summary">Summary</Link>
 						</Menu.Item>
-						<Menu.Item key="Providers">
+						<Menu.Item key="/providers">
 							<Link to="/providers">Providers</Link>
 						</Menu.Item>
 					</Menu>
@@ -40,8 +48,7 @@ function App() {
 							<Route exact path={['/', '/summary']}>
 								{isAuthenticated && <OverviewComponent isShowValuesEnabled={isShowValuesEnabled} />}
 							</Route>
-							<Route path={['/providers']}>
-							</Route>
+							<Route path={['/providers']}>{isAuthenticated && <ProvidersComponent />}</Route>
 						</Switch>
 					</main>
 					<FooterComponent />

@@ -5,14 +5,7 @@ export class ApiService {
 
 	public static async login() {
 		const authData = {}
-		const response = await fetch(`${Constants.SERVER_HOST}/login`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(authData),
-		})
-		const { token } = await response.json()
+		const { token } = await this.sendPostRequest('/login', authData)
 		this.authToken = token
 	}
 
@@ -42,8 +35,12 @@ export class ApiService {
 	}
 
 	private static getAuthHeader() {
-		return {
-			Authorization: `Bearer ${this.authToken}`,
+		if (this.authToken) {
+			return {
+				Authorization: `Bearer ${this.authToken}`,
+			}
+		} else {
+			return []
 		}
 	}
 }

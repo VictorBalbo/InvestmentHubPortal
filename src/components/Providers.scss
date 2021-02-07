@@ -1,0 +1,63 @@
+.provider-component {
+	display: flex;
+	flex-direction: column;
+	margin: 15px;
+
+	.provider-list {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.no-margin-divider {
+		margin: 0;
+	}
+
+	.provider-card {
+		width: 300px;
+		height: 130px;
+		border-radius: 10px;
+		margin: 15px 15px 15px 0;
+		box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
+
+		.ant-card-body {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			padding: 0;
+		}
+
+		.provider-card-body {
+			padding: 15px;
+			display: flex;
+			flex-direction: row;
+			height: 100%;
+
+			.provider-image {
+				width: 50px;
+				height: 50px;
+				border-radius: 15px;
+			}
+			.provider-name-column {
+				margin-left: 15px;
+				display: flex;
+				flex-direction: column;
+				flex-grow: 1;
+				justify-content: space-between;
+
+				.provider-description {
+					flex-grow: 1;
+				}
+
+				.provider-sync-button {
+					align-self: flex-end;
+				}
+			}
+		}
+
+		.provider-card-footer {
+			border-radius: 0 0 10px 10px;
+			padding-right: 0px;
+			text-align: end;
+		}
+	}
+}

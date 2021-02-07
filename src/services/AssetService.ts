@@ -17,4 +17,8 @@ export class AssetService {
 	static getAllAssetsAsync(): Promise<Asset[]> {
 		return ApiService.sendGetRequest<Asset[]>('/assets')
 	}
+
+	static updateProvidersAssetsAsync(body: Record<string, unknown>): Promise<boolean> {
+		return ApiService.sendPostRequest<boolean>('/assets', body)
+	}
 }

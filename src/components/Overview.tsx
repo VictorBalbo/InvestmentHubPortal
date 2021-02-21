@@ -34,9 +34,9 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 			labels: evolution.map((p) => format(parseISO(p.Date), 'dd/MM/yy')),
 			datasets: [
 				{
-					data: evolution.map((i) => i.Value),
+					data: evolution.map((i) => roundDecimals(i.Value)),
 					borderColor: chartColorScheme[0],
-					// background is the same color, but half transparency (FF / 2 = 80)
+					// background is the same color, but half transparency (0xFF / 2 = 0x80)
 					backgroundColor: chartColorScheme[0].concat('80'),
 				},
 			],

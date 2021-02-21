@@ -12,7 +12,7 @@ import { NubankModalComponent, RicoModalComponent } from '.'
 export const ProvidersComponent = () => {
 	const [providers, setProviders] = useState<AccountProvider[]>()
 	const [updatingProvider, setUpdatingProvider] = useState<AccountProvider>()
-	const [loadingProvider, setLoadingProvider] = useState<string[]>()
+	const [loadingProvider, setLoadingProvider] = useState<string[]>([])
 
 	useEffect(() => {
 		AccountProvidersService.getAccountProvidersAsync().then((p) => setProviders(p))
@@ -37,7 +37,7 @@ export const ProvidersComponent = () => {
 		providerName: string
 	}) => {
 		setUpdatingProvider(undefined)
-
+		setLoadingProvider(loadingProvider.concat(providerName))
 		try {
 			await AssetService.updateProvidersAssetsAsync({
 				providerName,
@@ -48,13 +48,15 @@ export const ProvidersComponent = () => {
 				message: 'Provider updated',
 				description: 'The assets from provider were successfully updated.',
 			})
-		} catch {
+		} catch(ex) {
+			console.log(ex)
 			notification.error({
 				message: 'Failed to update provider',
 				description: 'There were an error updating the provider, try again later.',
 			})
+		} finally {
+			setLoadingProvider(loadingProvider?.filter((p) => p !== providerName))
 		}
-		setLoadingProvider(loadingProvider?.filter((p) => p !== providerName))
 	}
 
 	const providersCard = providers?.map((p) => {

@@ -30,8 +30,12 @@ export class ApiService {
 			},
 			body: JSON.stringify(body),
 		})
-		const value = (await response.json()) as T
-		return value
+		const responseType = response.headers.get("content-type")
+		if(responseType?.includes('application/json')) {
+			const value = (await response.json()) as T
+			return value
+		}
+		return {} as T
 	}
 
 	private static getAuthHeader() {

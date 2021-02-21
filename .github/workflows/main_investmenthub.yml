@@ -32,5 +32,5 @@ jobs:
       with:
         app-name: 'investmenthub'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_2f23a2e588b948d39f8f4503d13ccd11 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ee0e8efe370844af9da1a65c17768361 }}
         package: .

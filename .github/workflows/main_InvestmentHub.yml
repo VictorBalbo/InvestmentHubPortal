@@ -25,7 +25,7 @@ jobs:
       uses: microsoft/variable-substitution@v1
       with:
         files: './src/settings.json'
-       env:
+      env:
         SERVER_HOST: https://investmenthubserver.azurewebsites.net
         DEFAULT_EMAIL: ${{ secrets.DEFAULT_EMAIL }}
         DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}

@@ -1,10 +1,14 @@
-import { Constants } from '@/appsettings'
+import { AppSettings } from '@/appsettings'
 
 export class ApiService {
 	public static authToken: string
 
 	public static async login() {
-		const authData = {}
+		/// TODO: Create login page
+		const authData = {
+			email: AppSettings.get('DEFAULT_EMAIL'),
+			password: AppSettings.get('DEFAULT_PASSWORD'),
+		}
 		const { token } = await this.sendPostRequest('/login', authData)
 		this.authToken = token
 	}
@@ -14,7 +18,7 @@ export class ApiService {
 	}
 
 	public static async sendGetRequest<T>(url: string): Promise<T> {
-		const response = await fetch(`${Constants.SERVER_HOST}${url}`, {
+		const response = await fetch(`${AppSettings.get('SERVER_HOST')}${url}`, {
 			headers: this.getAuthHeader(),
 		})
 		const value = (await response.json()) as T
@@ -22,7 +26,7 @@ export class ApiService {
 	}
 
 	public static async sendPostRequest<T>(url: string, body: Record<string, unknown>): Promise<T> {
-		const response = await fetch(`${Constants.SERVER_HOST}${url}`, {
+		const response = await fetch(`${AppSettings.get('SERVER_HOST')}${url}`, {
 			method: 'POST',
 			headers: {
 				...this.getAuthHeader(),

@@ -24,7 +24,7 @@ const chartColorScheme = [
 export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled: boolean }) {
 	const [allAssets, setAllAssets] = useState<Asset[]>()
 	useEffect(() => {
-		AssetService.getAllAssetsAsync().then(setAllAssets)
+		AssetService.getAllAssetsAsync().then(setAllAssets).catch(() => setAllAssets([]))
 	}, [])
 
 	let patrimonyChart

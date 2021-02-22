@@ -1,0 +1,5 @@
+{
+	"SERVER_HOST": "https://investmenthubserver.azurewebsites.net",
+	"DEFAULT_EMAIL": "",
+	"DEFAULT_PASSWORD": ""
+}

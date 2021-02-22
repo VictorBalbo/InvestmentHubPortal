@@ -68,7 +68,10 @@ export const ProvidersComponent = () => {
 					<span className="provider-name-column">
 						<h1>{p.providerName}</h1>
 						<p className="provider-description">
-							Updated {formatDistanceToNow(date, { addSuffix: true })}
+							{date.getFullYear() !== 0
+								? `Updated ${formatDistanceToNow(date, { addSuffix: true })}`
+								: 'Never updated'
+							}
 						</p>
 					</span>
 				</span>

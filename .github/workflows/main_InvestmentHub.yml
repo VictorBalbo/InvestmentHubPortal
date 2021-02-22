@@ -21,14 +21,14 @@ jobs:
       with:
         node-version: '12.13.0'
 
-		- name: Variable Substitution
+    - name: Variable Substitution
       uses: microsoft/variable-substitution@v1
       with:
         files: './src/settings.json'
-			env:
-				SERVER_HOST: https://investmenthubserver.azurewebsites.net
-				DEFAULT_EMAIL: ${{ secrets.DEFAULT_EMAIL }}
-				DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
+       env:
+        SERVER_HOST: https://investmenthubserver.azurewebsites.net
+        DEFAULT_EMAIL: ${{ secrets.DEFAULT_EMAIL }}
+        DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
 
     - name: npm install, build, and test
       run: |

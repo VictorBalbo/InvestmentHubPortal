@@ -33,4 +33,4 @@ jobs:
         app-name: 'InvestmentHub'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_abcb9726da5a4133afaaf59ec71c5f45 }}
-        package: .
+        package: ./dist

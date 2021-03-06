@@ -1,16 +1,12 @@
 import { AppSettings } from '@/appsettings'
 
 export class ApiService {
-	public static authToken: string
+	private static authToken: string
 
-	public static async login() {
-		/// TODO: Create login page
-		const authData = {
-			email: AppSettings.get('DEFAULT_EMAIL'),
-			password: AppSettings.get('DEFAULT_PASSWORD'),
-		}
-		const { token } = await this.sendPostRequest('/login', authData)
+	public static async login(authData: {email: string, password: string}) {
+		const { token, email, name } = await this.sendPostRequest('/login', authData)
 		this.authToken = token
+		return { email, name }
 	}
 
 	public static isLoggedIn(): boolean {

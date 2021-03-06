@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import {
-	FooterComponent,
-	HeaderComponent,
-	OverviewComponent,
-	ProvidersComponent,
-} from '@/components'
+import React, { useState } from 'react'
+import { FooterComponent, HeaderComponent, ProvidersComponent } from '@/components'
+import { LoginComponent, OverviewComponent } from '@/pages'
 import { Menu } from 'antd'
 import './App.scss'
 import Logo from './assets/logo.svg'
-import { ApiService } from '@/services/'
+import { ProvideAuthComponent, PrivateRouteComponent, useAuth } from '@/services/AuthService'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 
 function App() {
 	const [isShowValuesEnabled, setIsShowValuesEnabled] = useState<boolean>(true)
-	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
-	useEffect(() => {
-		ApiService.login().then(() => setIsAuthenticated(true))
-	}, [])
 
 	let pathName = window.location.pathname
-	if(pathName === '/') pathName = '/summary'
+	if (pathName === '/') pathName = '/summary'
+
+	const auth = useAuth()
 
 	return (
 		<section id="App">
@@ -45,10 +39,18 @@ function App() {
 					/>
 					<main id="main-content">
 						<Switch>
-							<Route exact path={['/', '/summary']}>
-								{isAuthenticated && <OverviewComponent isShowValuesEnabled={isShowValuesEnabled} />}
-							</Route>
-							<Route path={['/providers']}>{isAuthenticated && <ProvidersComponent />}</Route>
+							<ProvideAuthComponent>
+								<Route exact path="/login">
+									{auth.account}
+									<LoginComponent />
+								</Route>
+								<PrivateRouteComponent exact path={['/', '/summary']}>
+									<OverviewComponent isShowValuesEnabled={isShowValuesEnabled} />
+								</PrivateRouteComponent>
+								<Route path={['/providers']}>
+									<ProvidersComponent />
+								</Route>
+							</ProvideAuthComponent>
 						</Switch>
 					</main>
 					<FooterComponent />

@@ -3,7 +3,6 @@ export class AppSettings {
 	static data: { [index: string]: any } = {}
 
 	static get(property: string) {
-		console.log(settings)
 		if (JSON.stringify(this.data) === JSON.stringify({})) {
 			if (typeof settings === 'object') {
 				this.data = settings

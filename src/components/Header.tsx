@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { Button, Tooltip } from 'antd'
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
+import { useAuth } from '@/services'
 import './Header.scss'
 
 interface HeaderProps {
@@ -9,10 +10,11 @@ interface HeaderProps {
 }
 
 export const HeaderComponent = ({isShowValuesEnabled, setIsShowValuesEnabled}: HeaderProps) => {
+	const auth = useAuth()
 
 	return (
 		<header className='main-header'>
-			<h2 className='greetings'>Hi, Victor Balbo</h2>
+			<h2 className='greetings'>Hi, {auth.account?.name}</h2>
 			<Tooltip title={isShowValuesEnabled ? 'Hide Values' : 'Show Values'}>
 				<Button
 					shape="circle"

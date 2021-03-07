@@ -7,16 +7,16 @@ import { formatDistanceToNow, parseISO } from 'date-fns'
 import nubank from '@/assets/providers/nubank.webp'
 import rico from '@/assets/providers/rico.webp'
 import './Providers.scss'
-import { NubankModalComponent, RicoModalComponent } from '.'
+import { NubankModalComponent, RicoModalComponent } from '../components'
 
 export const ProvidersComponent = () => {
 	const [providers, setProviders] = useState<AccountProvider[]>()
 	const [updatingProvider, setUpdatingProvider] = useState<AccountProvider>()
-	const [loadingProvider, setLoadingProvider] = useState<string[]>([])
+	const [loadingProviders, setLoadingProviders] = useState<string[]>([])
 
 	useEffect(() => {
 		AccountProvidersService.getAccountProvidersAsync().then((p) => setProviders(p))
-	}, [])
+	}, [loadingProviders])
 
 	const getImageForProvider = (providerName: string) => {
 		switch (providerName) {
@@ -37,7 +37,7 @@ export const ProvidersComponent = () => {
 		providerName: string
 	}) => {
 		setUpdatingProvider(undefined)
-		setLoadingProvider(loadingProvider.concat(providerName))
+		setLoadingProviders(loadingProviders.concat(providerName))
 		try {
 			await AssetService.updateProvidersAssetsAsync({
 				providerName,
@@ -48,14 +48,14 @@ export const ProvidersComponent = () => {
 				message: 'Provider updated',
 				description: 'The assets from provider were successfully updated.',
 			})
-		} catch(ex) {
+		} catch (ex) {
 			console.log(ex)
 			notification.error({
 				message: 'Failed to update provider',
 				description: 'There were an error updating the provider, try again later.',
 			})
 		} finally {
-			setLoadingProvider(loadingProvider?.filter((p) => p !== providerName))
+			setLoadingProviders(loadingProviders?.filter((p) => p !== providerName))
 		}
 	}
 
@@ -70,8 +70,7 @@ export const ProvidersComponent = () => {
 						<p className="provider-description">
 							{date.getFullYear() !== 0
 								? `Updated ${formatDistanceToNow(date, { addSuffix: true })}`
-								: 'Never updated'
-							}
+								: 'Never updated'}
 						</p>
 					</span>
 				</span>
@@ -81,7 +80,7 @@ export const ProvidersComponent = () => {
 						onClick={() => setUpdatingProvider(p)}
 						type="link"
 						className="provider-sync-button"
-						loading={loadingProvider?.includes(p.providerName)}
+						loading={loadingProviders?.includes(p.providerName)}
 						icon={<SyncOutlined />}>
 						Sync
 					</Button>
@@ -105,9 +104,7 @@ export const ProvidersComponent = () => {
 	return (
 		<section className="provider-component">
 			<h2>My accounts</h2>
-			<section className='provider-list'>
-				{providersCard}
-			</section>
+			<section className="provider-list">{providersCard}</section>
 		</section>
 	)
 }

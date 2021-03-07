@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { FooterComponent, HeaderComponent, ProvidersComponent } from '@/components'
-import { LoginComponent, OverviewComponent } from '@/pages'
+import { FooterComponent, HeaderComponent } from '@/components'
+import { LoginComponent, OverviewComponent, ProvidersComponent } from '@/pages'
 import { Menu } from 'antd'
 import './App.scss'
 import Logo from './assets/logo.svg'
@@ -33,13 +33,13 @@ function App() {
 					</Menu>
 				</aside>
 				<section id="main-section" className={isShowValuesEnabled ? '' : 'hide-values-enabled'}>
-					<HeaderComponent
-						isShowValuesEnabled={isShowValuesEnabled}
-						setIsShowValuesEnabled={setIsShowValuesEnabled}
-					/>
-					<main id="main-content">
-						<Switch>
-							<ProvideAuthComponent>
+					<ProvideAuthComponent>
+						<HeaderComponent
+							isShowValuesEnabled={isShowValuesEnabled}
+							setIsShowValuesEnabled={setIsShowValuesEnabled}
+						/>
+						<main id="main-content">
+							<Switch>
 								<Route exact path="/login">
 									{auth.account}
 									<LoginComponent />
@@ -50,10 +50,10 @@ function App() {
 								<Route path={['/providers']}>
 									<ProvidersComponent />
 								</Route>
-							</ProvideAuthComponent>
-						</Switch>
-					</main>
-					<FooterComponent />
+							</Switch>
+						</main>
+						<FooterComponent />
+					</ProvideAuthComponent>
 				</section>
 			</Router>
 		</section>

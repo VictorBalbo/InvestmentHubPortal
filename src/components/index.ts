@@ -1,5 +1,4 @@
 export * from './Header'
 export * from './Footer'
 export * from './NubankModal'
-export * from './Providers'
 export * from './RicoModal'

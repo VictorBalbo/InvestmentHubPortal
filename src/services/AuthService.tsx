@@ -15,16 +15,12 @@ let authContext: React.Context<AuthContext>
 let authData: AuthContext
 
 export const useAuth = () => {
-	if (!authContext) {
-		authData = useProvideAuth()
-		authContext = createContext<AuthContext>(authData)
-	}
 	return useContext(authContext)
 }
 
 export const ProvideAuthComponent = ({ children }: { children: React.ReactNode }) => {
 	authData = useProvideAuth()
-	useAuth()
+	authContext = createContext<AuthContext>(authData)
 	return <authContext.Provider value={authData}> {children} </authContext.Provider>
 }
 
@@ -43,9 +39,9 @@ const useProvideAuth = (): AuthContext => {
 
 	const signInFromStorage = async () => {
 		try {
-			const account = await ApiService.tryLogin()
-			if (account) {
-				setAccount(account)
+			const acc = await ApiService.tryLogin()
+			if (acc) {
+				setAccount(acc)
 				return true
 			}
 		} catch (ex) {

@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '@/services'
 import { Button } from 'antd'
@@ -16,6 +16,15 @@ export const LoginComponent = () => {
 
 	const isFormValid = !!email && isValidEmail(email) && !!password
 
+	useEffect(() => {
+		if (!auth.account) {
+			auth.signInFromStorage().then((isAuthenticated) => {
+				if (isAuthenticated) {
+					history.push('/')
+				}
+			})
+		}
+	}, [])
 
 	const logIn = async (event?: FormEvent) => {
 		event?.preventDefault()
@@ -23,7 +32,7 @@ export const LoginComponent = () => {
 		if (!auth?.account) {
 			setIsLoading(true)
 			try {
-				const isAuthenticated = await auth.signin({ email, password })
+				const isAuthenticated = await auth.signIn({ email, password })
 
 				if (isAuthenticated) {
 					history.push('/')

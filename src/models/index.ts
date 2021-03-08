@@ -1,3 +1,4 @@
+export * from './Account'
 export * from './AccountProvider'
 export * from './Asset'
 export * from './AssetType'

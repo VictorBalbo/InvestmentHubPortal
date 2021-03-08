@@ -1,11 +1,29 @@
 import { AppSettings } from '@/appsettings'
+import { Account } from '@/models'
 
 export class ApiService {
 	private static authToken: string
+	private static readonly TOKEN_KEY: string = 'token'
 
-	public static async login(authData: {email: string, password: string}) {
+	public static async tryLogin(): Promise<Account | null> {
+		const token = localStorage.getItem(this.TOKEN_KEY)
+		if (token) {
+			this.authToken = token
+			const account = await this.sendGetRequest<Account>('/accounts')
+			if(account) {
+				return account
+			} else {
+				this.authToken = ''
+				localStorage.removeItem(this.TOKEN_KEY)
+			}
+		}
+		return null
+	}
+
+	public static async login(authData: {email: string, password: string}): Promise<Account> {
 		const { token, email, name } = await this.sendPostRequest('/login', authData)
 		this.authToken = token
+		localStorage.setItem(this.TOKEN_KEY, token)
 		return { email, name }
 	}
 

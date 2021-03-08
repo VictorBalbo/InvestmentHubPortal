@@ -1,17 +1,14 @@
 import React, { useState, useContext, createContext } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { ApiService } from '.'
+import { Account } from '@/models'
 
 interface AuthContext {
 	account?: Account
-	signin: (data: { email: string; password: string }) => Promise<boolean>
-	signup: (data: { email: string; name: string; password: string }) => void
-	signout: () => void
-}
-
-interface Account {
-	email: string
-	name: string
+	signInFromStorage: () => Promise<boolean>
+	signIn: (data: { email: string; password: string }) => Promise<boolean>
+	signUp: (data: { email: string; name: string; password: string }) => void
+	signOut: () => void
 }
 
 let authContext: React.Context<AuthContext>
@@ -35,7 +32,7 @@ export const PrivateRouteComponent = ({ children, ...rest }: any) => {
 	const auth = useAuth()
 	return (
 		<Route {...rest} value={auth}>
-			{auth?.account ? children : <Redirect to="/login" />}
+			{auth.account ? children : <Redirect to="/login" />}
 		</Route>
 	)
 }
@@ -44,7 +41,20 @@ export const PrivateRouteComponent = ({ children, ...rest }: any) => {
 const useProvideAuth = (): AuthContext => {
 	const [account, setAccount] = useState<Account>()
 
-	const signin = async (data: { email: string; password: string }) => {
+	const signInFromStorage = async () => {
+		try {
+			const account = await ApiService.tryLogin()
+			if (account) {
+				setAccount(account)
+				return true
+			}
+		} catch (ex) {
+			console.error('Error on login', ex)
+		}
+		return false
+	}
+
+	const signIn = async (data: { email: string; password: string }) => {
 		try {
 			const acc = await ApiService.login(data)
 			setAccount(acc)
@@ -55,7 +65,7 @@ const useProvideAuth = (): AuthContext => {
 		}
 	}
 
-	const signup = (data: { email: string; name: string; password: string }) => {
+	const signUp = (data: { email: string; name: string; password: string }) => {
 		try {
 			ApiService.sendPostRequest('/register', data)
 			return true
@@ -65,15 +75,16 @@ const useProvideAuth = (): AuthContext => {
 		}
 	}
 
-	const signout = () => {
+	const signOut = () => {
 		// TODO: Implement sign out
 	}
 
 	// Return the user object and auth methods
 	return {
 		account,
-		signin,
-		signup,
-		signout,
+		signInFromStorage,
+		signIn,
+		signUp,
+		signOut,
 	}
 }

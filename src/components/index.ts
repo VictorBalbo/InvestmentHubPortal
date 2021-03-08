@@ -1,4 +1,6 @@
 export * from './Header'
 export * from './Footer'
+export * from './Input'
 export * from './NubankModal'
 export * from './RicoModal'
+export * from './SideMenu'

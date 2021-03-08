@@ -3,12 +3,6 @@
 	flex-direction: row;
 	min-height: 100%;
 
-	#side-menu {
-		width: 256px;
-		min-width: 256px;
-		background-color: #001529;
-	}
-
 	#main-section {
 		width: 100%;
 		display: flex;
@@ -18,18 +12,4 @@
 			flex-grow: 1;
 		}
 	}
-}
-
-.logo {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-.logo img {
-	width: 200px;
-}
-.logo span {
-	color: #ccccdb;
-	font-size: x-large;
-	text-align: center;
 }

@@ -1,0 +1,66 @@
+.input-component {
+	width: 100%;
+
+	&.danger .error-message {
+		visibility: visible;
+		color: #ff4c4c
+	}
+
+	.error-message {
+		visibility: hidden;
+		margin-left: 12px;
+	}
+
+	&.danger .input-div{
+		border-color: #ff4c4c;
+		&:hover {
+			border-color: #ff4c4c;
+		}
+		&:focus-within {
+			border-color: #ff4c4c;
+			box-shadow: #ffa5a5 0px 0px 0px 2px;
+			.label {
+				color: #ff4c4c;
+			}
+		}
+	}
+
+	.input-div {
+		background-color: #fff;
+		border: 1px solid #d2dfe6;
+		border-radius: 5px;
+		padding: 8px 4px 8px 12px;
+		transition: all .25s;
+
+		&:hover {
+			border-color: #3f7de8;
+		}
+		&:focus-within {
+			border-color: #3f7de8;
+			box-shadow: #3f7de866 0px 0px 0px 2px;
+		}
+
+		&,
+		* {
+			cursor: text;
+		}
+
+		.label {
+			display: block;
+			line-height: 1rem;
+			font-size: 12px;
+			font-family: 'Nunito Sans', Tahoma, Helvetica, Arial, sans-serif;
+			font-weight: bold;
+			transition: 0.2s ease all;
+			color: #8ca0b3;
+		}
+
+		input {
+			width: 100%;
+			border: none;
+			outline: none;
+			box-shadow: none;
+			padding: 0;
+		}
+	}
+}

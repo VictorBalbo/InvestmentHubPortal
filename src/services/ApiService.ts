@@ -17,6 +17,11 @@ export class ApiService {
 		const response = await fetch(`${AppSettings.get('SERVER_HOST')}${url}`, {
 			headers: this.getAuthHeader(),
 		})
+		
+		if (!response.ok) {
+			throw Error(response.statusText)
+		}
+		
 		const value = (await response.json()) as T
 		return value
 	}
@@ -30,8 +35,13 @@ export class ApiService {
 			},
 			body: JSON.stringify(body),
 		})
-		const responseType = response.headers.get("content-type")
-		if(responseType?.includes('application/json')) {
+
+		if (!response.ok) {
+			throw Error(response.statusText)
+		}
+
+		const responseType = response.headers.get('content-type')
+		if (responseType?.includes('application/json')) {
 			const value = (await response.json()) as T
 			return value
 		}

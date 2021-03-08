@@ -27,6 +27,7 @@ export const useAuth = () => {
 
 export const ProvideAuthComponent = ({ children }: { children: React.ReactNode }) => {
 	authData = useProvideAuth()
+	useAuth()
 	return <authContext.Provider value={authData}> {children} </authContext.Provider>
 }
 

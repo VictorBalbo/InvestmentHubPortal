@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '@/services'
-import { Button } from 'antd'
+import { Button, notification } from 'antd'
 import { InputComponent, isValidEmail } from '@/components'
 import Logo from '@/assets/logo.svg'
 import './Login.scss'
@@ -36,6 +36,12 @@ export const LoginComponent = () => {
 
 				if (isAuthenticated) {
 					history.push('/')
+				} else {
+					notification.error({
+						message: 'Error',
+						description: 'Your login e/or password is incorrect',
+						placement: 'bottomLeft',
+					})
 				}
 			} finally {
 				setIsLoading(false)

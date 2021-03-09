@@ -175,6 +175,11 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 						options={{
 							responsive: true,
 							maintainAspectRatio: false,
+							tooltips: {
+								callbacks: {
+									label: (item) => isShowValuesEnabled ? (item.value ?? '') : ''
+								}
+							},
 							scales: {
 								yAxes: [
 									{

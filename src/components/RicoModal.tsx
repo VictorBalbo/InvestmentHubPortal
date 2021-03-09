@@ -1,6 +1,7 @@
 import React, { Dispatch, useState } from 'react'
-import { Input, Modal } from 'antd'
+import { Modal } from 'antd'
 import { AccountProvider } from '@/models'
+import { InputComponent } from '.'
 
 interface RicoModalProps {
 	updateProviderAssets: (provider: { secureCode?: string; providerName: string }) => void
@@ -12,7 +13,7 @@ export const RicoModalComponent = ({
 	setUpdatingProvider,
 }: RicoModalProps) => {
 
-	const [secureCode, setSecureCode] = useState<string>()
+	const [secureCode, setSecureCode] = useState<string>('')
 
 	const updateAssets = () => {
 		updateProviderAssets({
@@ -36,7 +37,7 @@ export const RicoModalComponent = ({
 				</ol>
 			</div>
 			<div>
-				<Input placeholder="Token" onChange={(val) => setSecureCode(val.target.value)}/>
+				<InputComponent label="Token" value={secureCode} onChange={setSecureCode}/>
 			</div>
 		</Modal>
 	)

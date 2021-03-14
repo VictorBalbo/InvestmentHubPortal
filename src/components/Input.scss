@@ -31,6 +31,9 @@
 		border-radius: 5px;
 		padding: 8px 4px 8px 12px;
 		transition: all .25s;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 
 		&:hover {
 			border-color: #3f7de8;
@@ -38,6 +41,10 @@
 		&:focus-within {
 			border-color: #3f7de8;
 			box-shadow: #3f7de866 0px 0px 0px 2px;
+		}
+
+		.input {
+			flex-grow: 1;
 		}
 
 		&,

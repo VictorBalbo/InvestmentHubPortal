@@ -2,13 +2,15 @@ import React, { useRef, useState } from 'react'
 import './input.scss'
 
 interface InputProps {
-	label: string
 	value: string
-	onChange: (value: string) => void
+	onChange?: (value: string) => void
+	label?: string
 	type?: 'text' | 'password' | 'email'
 	danger?: boolean
 	required?: boolean
 	errorMessage?: string
+	readonly?: boolean
+	rightSlot?: React.ReactNode
 }
 
 const emailRegex = /^\w+([.+,-]\w+)*@\w+([.-]\w+)*\.\w{2,}$/
@@ -24,6 +26,8 @@ export const InputComponent = ({
 	type = 'text',
 	required = false,
 	danger = false,
+	readonly = false,
+	rightSlot,
 }: InputProps) => {
 	const inputEl = useRef<HTMLInputElement>(null)
 	const [isPristine, setIsPristine] = useState<boolean>(true)
@@ -33,30 +37,39 @@ export const InputComponent = ({
 		if (type === 'email') {
 			isValid = isValidEmail(value)
 		}
-		
+
 		if (required) {
 			isValid = isValid && !!value
 		}
-			
+
 		return isValid
 	}
 
 	const onChangeEventHandler = (value: string) => {
 		setIsPristine(false)
-		onChange(value)
+		if (onChange) {
+			onChange(value)
+		}
 	}
 
 	const validationDanger = isPristine ? false : !isValidateValue(value)
 
 	return (
-		<div className={'input-component ' + (validationDanger ? 'danger' : '')}>
-			<div
-				className={'input-div'}
-				onClick={() => inputEl.current?.focus()}>
-				<label className="label">{label}</label>
-				<input ref={inputEl} type={type} value={value} onChange={(e) => onChangeEventHandler(e.target.value)} />
+		<div className={'input-component ' + (validationDanger || danger ? 'danger' : '')}>
+			<div className="input-div" onClick={() => inputEl.current?.focus()}>
+				<div className="input">
+					<label className="label">{label}</label>
+					<input
+						ref={inputEl}
+						type={type}
+						value={value}
+						onChange={(e) => onChangeEventHandler(e.target.value)}
+						readOnly={readonly}
+					/>
+				</div>
+				{rightSlot}
 			</div>
-			{danger && <span className='error-message'>{errorMessage}</span>}
+			{danger && <span className="error-message">{errorMessage}</span>}
 		</div>
 	)
 }

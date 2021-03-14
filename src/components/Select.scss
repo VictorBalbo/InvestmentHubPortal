@@ -1,0 +1,45 @@
+.select-component {
+	position: relative;
+	&, * {
+		cursor: pointer !important;
+	}
+	
+	.right-arrow {
+		width: 20px;
+		transition: all linear .2s;
+
+		&.arrow-up {
+			transform: rotateX(180deg);
+		}
+
+		&.arrow-down {
+			transform: rotateX(0);
+		}
+	}
+
+	.select-options {
+		width: 100%;
+		position: absolute;
+		background-color: white;
+		border: 1px solid #d2dfe6;
+		border-radius: 5px;
+		transform: scaleY(0);
+		transform-origin: top left;
+		transition: transform 0.3s;
+
+		z-index: 1;
+
+		.select-option {
+			padding: 8px 4px 8px 12px;
+			&:hover {
+				background-color: #f3f6fa;
+				color: #3f7de8
+			}
+
+		}
+
+		&.open-options {
+			transform: scaleY(1);
+		}
+	}
+}

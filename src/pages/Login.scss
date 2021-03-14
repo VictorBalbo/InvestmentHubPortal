@@ -3,6 +3,10 @@
 	display: flex;
 	justify-content: center;
 
+	.full-page-loading {
+		align-self: center;
+	}
+
 	.login-form {
 		width: 300px;
 		display: flex;

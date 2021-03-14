@@ -33,6 +33,10 @@
 
 	.WalletCard {
 		width: 100%;
+		
+		.wallet-filters {
+			margin-bottom: 20px;
+		}
 
 		.WalletWrapper {
 			display: flex;

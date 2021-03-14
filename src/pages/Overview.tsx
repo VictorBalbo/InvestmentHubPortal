@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Divider, Statistic, Table } from 'antd'
 import { Doughnut, Line } from 'react-chartjs-2'
-import { compareAsc, format, parseISO } from 'date-fns'
+import { addMinutes, compareAsc, format, parseISO } from 'date-fns'
 import { Asset, AssetType, PatrimonyEvolution } from '@/models'
 import { AssetService } from '@/services'
+import { SelectComponent } from '@/components/Select'
 import './Overview.scss'
 
 const chartColorScheme = [
@@ -21,12 +22,18 @@ const chartColorScheme = [
 	'#b15928',
 ]
 
+enum GroupByOptions {
+	Type = 'type',
+	Provider = 'providerName',
+}
+
 export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled: boolean }) {
 	const [allAssets, setAllAssets] = useState<Asset[]>()
 	useEffect(() => {
-		AssetService.getAllAssetsAsync().then(setAllAssets).catch(() => setAllAssets([]))
+		AssetService.getAllAssetsAsync()
+			.then(setAllAssets)
+			.catch(() => setAllAssets([]))
 	}, [])
-
 	let patrimonyChart
 	if (allAssets) {
 		const evolution = getPatrimonyEvolution(allAssets)
@@ -44,6 +51,7 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 	}
 
 	const [currentOwnedAssets, setcurrentOwnedAssets] = useState<Asset[]>()
+	const [assetsGroupBy, setAssetsGroupBy] = useState<GroupByOptions>(GroupByOptions.Type)
 	useEffect(() => {
 		AssetService.getCurrentOwnedAssetsAsync().then(setcurrentOwnedAssets)
 	}, [])
@@ -68,23 +76,18 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 			.reduce((acc, val) => acc + val.value, 0)
 
 		// Group investiments by type
-		const investmentsByType =
-			currentOwnedAssets.reduce((acc: { [key in AssetType]?: number }, i) => {
-				acc[i.type] = (acc[i.type] || 0) + i.value
-				return acc
-			}, {}) ?? {}
+		const investmentsByType = currentOwnedAssets.reduce((acc: { [key: string]: number }, i) => {
+			acc[i[assetsGroupBy]] = (acc[i[assetsGroupBy]] || 0) + i.value
+			return acc
+		}, {})
 
 		walletChartData = {
 			labels: Object.keys(investmentsByType).filter((a) => a !== AssetType.Credit),
 			datasets: [
 				{
 					data: Object.values(investmentsByType)
-						.filter((val) => (val ?? 0) > 0)
-						.map((val) =>
-							isShowValuesEnabled
-								? val ?? 0
-								: ((val ?? 0) / positiveAssetsValue),
-						),
+						.filter((val) => val > 0)
+						.map((val) => (isShowValuesEnabled ? val : val / positiveAssetsValue)),
 					backgroundColor: chartColorScheme,
 					borderWidth: 1,
 				},
@@ -94,9 +97,8 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 		walletTableSource = Object.entries(investmentsByType).map(([key, value]) => ({
 			key: key,
 			type: key,
-			participacao:
-				key === AssetType.Credit ? '-' : formatPercentage((value ?? 0) / positiveAssetsValue),
-			value: roundDecimals(value ?? 0),
+			participacao: key === AssetType.Credit ? '-' : formatPercentage(value / positiveAssetsValue),
+			value: roundDecimals(value),
 		}))
 	}
 
@@ -177,8 +179,8 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 							maintainAspectRatio: false,
 							tooltips: {
 								callbacks: {
-									label: (item) => isShowValuesEnabled ? (item.value ?? '') : ''
-								}
+									label: (item) => (isShowValuesEnabled ? item.value ?? '' : ''),
+								},
 							},
 							scales: {
 								yAxes: [
@@ -200,6 +202,17 @@ export function OverviewComponent({ isShowValuesEnabled }: { isShowValuesEnabled
 
 			<section className="CardSection">
 				<Card title="My Wallet" className="OverviewCard WalletCard" loading={!currentOwnedAssets}>
+					<div className='wallet-filters'>
+						<SelectComponent
+							value={assetsGroupBy}
+							onChange={(value) => setAssetsGroupBy(value)}
+							label={'Group By'}
+							options={Object.entries(GroupByOptions).map(([key, value]) => ({
+								label: key,
+								value: value,
+							}))}
+						/>
+					</div>
 					<div className="WalletWrapper">
 						<div className="WalletChart">
 							<Doughnut
@@ -247,7 +260,7 @@ const roundDecimals = (value: number, decimals: number = 2) =>
  */
 const getPatrimonyEvolution = (assets: Asset[]): PatrimonyEvolution[] => {
 	const assetsByDate = assets.reduce((acc: { [key: string]: { [key: string]: number } }, val) => {
-		const assetDate = format(new Date(val.storageDate), 'yyyy-MM-dd')
+		const assetDate = format(getUtcDate(new Date(val.storageDate)), 'yyyy-MM-dd')
 		acc[assetDate] = acc[assetDate] || {}
 		acc[assetDate][val.providerName] = val.value + (acc[assetDate][val.providerName] || 0)
 		return acc
@@ -268,3 +281,5 @@ const getPatrimonyEvolution = (assets: Asset[]): PatrimonyEvolution[] => {
 		})
 	return patrimonyByDateByProvider
 }
+
+const getUtcDate = (date: Date) => addMinutes(date, date.getTimezoneOffset())

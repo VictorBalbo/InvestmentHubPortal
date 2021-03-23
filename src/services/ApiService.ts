@@ -27,6 +27,13 @@ export class ApiService {
 		return { email, name }
 	}
 
+	public static async signup(authData: {email: string, password: string}): Promise<Account> {
+		const { token, email, name } = await this.sendPostRequest('/register', authData)
+		this.authToken = token
+		localStorage.setItem(this.TOKEN_KEY, token)
+		return { email, name }
+	}
+
 	public static isLoggedIn(): boolean {
 		return !!this.authToken
 	}

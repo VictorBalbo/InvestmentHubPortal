@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FooterComponent, HeaderComponent, SideMenuComponent } from '@/components'
-import { LoginComponent, OverviewComponent, ProvidersComponent } from '@/pages'
+import { LoginComponent, OverviewComponent, ProvidersComponent, RegisterComponent } from '@/pages'
 import './App.scss'
 import { ProvideAuthComponent, PrivateRouteComponent } from '@/services/AuthService'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -15,6 +15,9 @@ function App() {
 					<Switch>
 						<Route exact path="/login">
 							<LoginComponent />
+						</Route>
+						<Route exact path="/register">
+							<RegisterComponent />
 						</Route>
 						<Route>
 							<SideMenuComponent />

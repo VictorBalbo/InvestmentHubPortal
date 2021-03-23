@@ -7,7 +7,7 @@ interface AuthContext {
 	account?: Account
 	signInFromStorage: () => Promise<boolean>
 	signIn: (data: { email: string; password: string }) => Promise<boolean>
-	signUp: (data: { email: string; name: string; password: string }) => void
+	signUp: (data: { email: string; name: string; password: string }) => Promise<boolean>
 	signOut: () => void
 }
 
@@ -63,12 +63,13 @@ const useProvideAuth = (): AuthContext => {
 		}
 	}
 
-	const signUp = (data: { email: string; name: string; password: string }) => {
+	const signUp = async (data: { email: string; name: string; password: string }) => {
 		try {
-			ApiService.sendPostRequest('/register', data)
+			const acc = await ApiService.signup(data)
+			setAccount(acc)
 			return true
 		} catch (ex) {
-			console.error('Error on login', ex)
+			console.error('Error on signup', ex)
 			return false
 		}
 	}

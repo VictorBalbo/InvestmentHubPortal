@@ -4,19 +4,20 @@ import { useAuth } from '@/services'
 import { Button, notification, Spin } from 'antd'
 import { InputComponent, isValidEmail } from '@/components'
 import Logo from '@/assets/logo.svg'
-import './Login.scss'
 import { LoadingOutlined } from '@ant-design/icons'
+import './Register.scss'
 
-export const LoginComponent = () => {
+export const RegisterComponent = () => {
 	const auth = useAuth()
 	const history = useHistory()
 
+	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 	const [isFullPageLoading, setIsFullPageLoading] = useState(false)
 
-	const isFormValid = !!email && isValidEmail(email) && !!password
+	const isFormValid = !!name && !!email && isValidEmail(email) && !!password
 
 	useEffect(() => {
 		if (!auth.account) {
@@ -34,20 +35,20 @@ export const LoginComponent = () => {
 		}
 	}, [])
 
-	const logIn = async (event?: FormEvent) => {
+	const signUp = async (event?: FormEvent) => {
 		event?.preventDefault()
 
 		if (!auth?.account) {
 			setIsLoading(true)
 			try {
-				const isAuthenticated = await auth.signIn({ email, password })
+				const isAuthenticated = await auth.signUp({ email, name, password })
 
 				if (isAuthenticated) {
 					history.push('/')
 				} else {
 					notification.error({
 						message: 'Error',
-						description: 'Your login e/or password is incorrect',
+						description: 'There where an error signing you up',
 						placement: 'bottomLeft',
 					})
 				}
@@ -58,15 +59,21 @@ export const LoginComponent = () => {
 	}
 
 	return (
-		<section className="login-component">
+		<section className="register-component">
 			{isFullPageLoading && <Spin className='full-page-loading' indicator={<LoadingOutlined style={{ fontSize: 60 }} spin />} />}
 			{!isFullPageLoading && (
-				<div className="login-form">
+				<div className="reigster-form">
 					<div className="logo">
 						<img src={Logo} alt="InvestmentHub Logo" />
 						<span>InvestmentHub</span>
 					</div>
-					<form onSubmit={logIn} noValidate>
+					<form onSubmit={signUp} noValidate>
+						<InputComponent
+							label="Name"
+							value={name}
+							onChange={setName}
+							required={true}
+						/>
 						<InputComponent
 							label="Email"
 							type="email"
@@ -82,11 +89,8 @@ export const LoginComponent = () => {
 							required={true}
 						/>
 						<Button disabled={!isFormValid} type="primary" htmlType="submit" loading={isLoading}>
-							Login
+							Create Account
 						</Button>
-						<span>
-							Don`t have an account? <a href='/register'>Sign Up</a>
-						</span>
 					</form>
 				</div>
 			)}

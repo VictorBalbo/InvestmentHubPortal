@@ -24,14 +24,19 @@ export class ApiService {
 		const { token, email, name } = await this.sendPostRequest('/login', authData)
 		this.authToken = token
 		localStorage.setItem(this.TOKEN_KEY, token)
-		return { email, name }
+		return { email, name, password: authData.password }
 	}
 
 	public static async signup(authData: {email: string, password: string}): Promise<Account> {
 		const { token, email, name } = await this.sendPostRequest('/register', authData)
 		this.authToken = token
 		localStorage.setItem(this.TOKEN_KEY, token)
-		return { email, name }
+		return { email, name, password: authData.password }
+	}
+
+	public static async signOut(): Promise<void> {
+		this.authToken = ''
+		localStorage.removeItem(this.TOKEN_KEY)
 	}
 
 	public static isLoggedIn(): boolean {

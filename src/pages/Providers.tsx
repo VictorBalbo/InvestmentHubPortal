@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { AccountProvider } from '@/models'
-import { AccountProvidersService, AssetService } from '@/services'
+import { AccountProvidersService, AssetService, useAuth } from '@/services'
 import { Button, Card, Divider, notification } from 'antd'
 import { SyncOutlined } from '@ant-design/icons'
 import { formatDistanceToNow, parseISO } from 'date-fns'
@@ -13,6 +13,11 @@ export const ProvidersComponent = () => {
 	const [providers, setProviders] = useState<AccountProvider[]>()
 	const [updatingProvider, setUpdatingProvider] = useState<AccountProvider>()
 	const [loadingProviders, setLoadingProviders] = useState<string[]>([])
+	const auth = useAuth()
+	
+	if(!auth.account?.password) {
+		auth.signOut()
+	}
 
 	useEffect(() => {
 		AccountProvidersService.getAccountProvidersAsync().then((p) => setProviders(p))
@@ -42,7 +47,7 @@ export const ProvidersComponent = () => {
 			await AssetService.updateProvidersAssetsAsync({
 				providerName,
 				secureCode,
-				userPassword: 'teste123456',
+				userPassword: auth.account?.password,
 			})
 			notification.success({
 				message: 'Provider updated',

@@ -37,7 +37,7 @@ export const PrivateRouteComponent = ({ children, ...rest }: any) => {
 
 // Provider hook that creates auth object and handles state
 const useProvideAuth = (): AuthContext => {
-	const [account, setAccount] = useState<Account>()
+	const [account, setAccount] = useState<Account | undefined>()
 
 	const signInFromStorage = async () => {
 		try {
@@ -74,8 +74,9 @@ const useProvideAuth = (): AuthContext => {
 		}
 	}
 
-	const signOut = () => {
-		// TODO: Implement sign out
+	const signOut = async () => {
+		await ApiService.signOut()
+		setAccount(undefined)
 	}
 
 	// Return the user object and auth methods

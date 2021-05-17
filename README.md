@@ -23,11 +23,10 @@ npm start
 ```
 
 ## Usage
-Right now is not possibile to create and account or connect to a bank provider through the interface, so its needed to send the commands directly to the server.
+Right now is not possibile to connect to a bank provider through the interface, so its needed to send the commands directly to the server.
 Once create, the project should connect to the specified account and show the summary with the fetched assets.
 
 ## Roadmap
 The nexts steps are:
-* Create a registriation page.
 * Add posibility to connect to a bank provider though interface.
 * Add more insights for the assets registered.

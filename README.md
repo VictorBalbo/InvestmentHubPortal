@@ -6,6 +6,8 @@ The idea is to have a page to connect to banks and investment brokers, and unify
 
 For now the system is integrated to [Nubank](https://app.nubank.com.br/) and [Rico](https://www.rico.com.vc/login/).
 
+The application is running on Azure and can be used [here](https://investmenthub.azurewebsites.net/).
+
 ## Installation
 
 1. Install the NPM packages

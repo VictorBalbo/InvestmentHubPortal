@@ -1,6 +1,6 @@
 # InvestmentHubProtal
 
-This is a personal project to create a front end for the API on [this repository](https://github.com/VictorBalbo/Investment-Aggregator) using React + Vite.
+This is a personal project to create a front end for the API on [this repository](https://github.com/VictorBalbo/InvestmentHubServer) using React + Vite.
 
 The idea is to have a page to connect to banks and investment brokers, and unify all the data in a single view.
 
